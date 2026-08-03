@@ -22,6 +22,9 @@ function getGreeting() {
   return "Selamat malam";
 }
 
+import PageTransition from "@/components/motion/page-transition";
+import ScrollReveal from "@/components/motion/scroll-reveal";
+
 export default async function DashboardPage({
   searchParams,
 }: {
@@ -54,34 +57,36 @@ export default async function DashboardPage({
 
   if (!observations.length) {
     return (
-      <div className="relative min-h-screen isolate">
-        <div className="fixed inset-0 z-0">
-          <img src="/image.gif" alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-black/50" />
-        </div>
+      <PageTransition>
+        <div className="relative min-h-screen isolate">
+          <div className="fixed inset-0 z-0">
+            <img src="/image.gif" alt="" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-black/50" />
+          </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto px-6 py-16">
-          <div className="rounded-[2rem] bg-white/[0.06] backdrop-blur-xl border border-white/15 p-10 md:p-14 text-center shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
-            <div className="w-14 h-14 rounded-2xl bg-primary/20 flex items-center justify-center mx-auto mb-5">
-              <Sparkles size={24} className="text-primary animate-pulse" />
+          <div className="relative z-10 max-w-5xl mx-auto px-6 py-16">
+            <div className="rounded-[2rem] bg-white/[0.06] backdrop-blur-xl border border-white/15 p-10 md:p-14 text-center shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+              <div className="w-14 h-14 rounded-2xl bg-primary/20 flex items-center justify-center mx-auto mb-5">
+                <Sparkles size={24} className="text-primary" />
+              </div>
+              <h1 className="text-2xl font-bold text-white mb-2">
+                {getGreeting()}{firstName ? `, ${firstName}` : ""}
+              </h1>
+              <p className="text-sm text-white/70 mb-7 max-w-sm mx-auto leading-relaxed">
+                Belum ada catatan di sini. Mulai dari check-in pertamamu untuk
+                melihat tren mood dan tidurmu dari waktu ke waktu.
+              </p>
+              <Link
+                href="/observation"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium text-background bg-primary hover:bg-primary/95 transition-all hover:scale-[1.02] shadow-lg shadow-primary/20"
+              >
+                Isi Check-in Pertama
+                <ArrowRight size={16} />
+              </Link>
             </div>
-            <h1 className="text-2xl font-bold text-white mb-2">
-              {getGreeting()}{firstName ? `, ${firstName}` : ""}
-            </h1>
-            <p className="text-sm text-white/70 mb-7 max-w-sm mx-auto leading-relaxed">
-              Belum ada catatan di sini. Mulai dari check-in pertamamu untuk
-              melihat tren mood dan tidurmu dari waktu ke waktu.
-            </p>
-            <Link
-              href="/observation"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium text-background bg-primary hover:bg-primary/95 transition-all hover:scale-[1.02] shadow-lg shadow-primary/20"
-            >
-              Isi Check-in Pertama
-              <ArrowRight size={16} />
-            </Link>
           </div>
         </div>
-      </div>
+      </PageTransition>
     );
   }
 
@@ -97,7 +102,8 @@ export default async function DashboardPage({
   ).toFixed(1);
 
   return (
-    <div className="relative min-h-screen isolate">
+    <PageTransition>
+      <div className="relative min-h-screen isolate">
       {/* Background gif + overlay — SATU wrapper aja, nggak duplikat lagi */}
       <div className="fixed inset-0 z-0">
         <img src="/image.gif" alt="" className="w-full h-full object-cover" />
@@ -106,26 +112,29 @@ export default async function DashboardPage({
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-10 md:py-12">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-          <div>
-            <p className="text-sm text-primary-light font-medium mb-1.5">
-              {getGreeting()}{firstName ? `, ${firstName}` : ""}
-            </p>
-            <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight drop-shadow-sm">
-              Semoga harimu terasa ringan 🌿
-            </h1>
+        <ScrollReveal>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+            <div>
+              <p className="text-sm text-primary-light font-medium mb-1.5">
+                {getGreeting()}{firstName ? `, ${firstName}` : ""}
+              </p>
+              <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight drop-shadow-sm">
+                Semoga harimu terasa ringan 🌿
+              </h1>
+            </div>
+            <Link
+              href="/observation"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-medium text-white bg-primary hover:bg-primary/90 transition-colors shrink-0 shadow-lg"
+            >
+              Check-in Hari Ini
+              <ArrowRight size={15} />
+            </Link>
           </div>
-          <Link
-            href="/observation"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-medium text-white bg-primary hover:bg-primary/90 transition-colors shrink-0 shadow-lg"
-          >
-            Check-in Hari Ini
-            <ArrowRight size={15} />
-          </Link>
-        </div>
+        </ScrollReveal>
 
         {/* Hero mood card + 2 stat cards */}
-        <div className="grid md:grid-cols-3 gap-4 mb-6">
+        <ScrollReveal delay={0.1}>
+          <div className="grid md:grid-cols-3 gap-4 mb-6">
           <div className="md:col-span-1 rounded-3xl bg-gradient-to-br from-primary to-primary/80 p-6 text-background shadow-lg shadow-primary/25 flex flex-col justify-between hover:scale-[1.01] transition-transform duration-300">
             <p className="text-xs text-background/75 font-semibold mb-3">Mood Hari Ini</p>
             <div>
@@ -160,9 +169,11 @@ export default async function DashboardPage({
             <p className="text-xs text-white/70 mt-1 font-medium">Hari ini</p>
           </div>
         </div>
+        </ScrollReveal>
 
         {/* Kalender + Chart, sejajar di desktop */}
-        <div className="grid lg:grid-cols-2 gap-4 mb-6">
+        <ScrollReveal delay={0.2}>
+          <div className="grid lg:grid-cols-2 gap-4 mb-6">
           <MoodCalendar year={year} month={month} entries={calendarEntries} />
 
           <div className="rounded-3xl bg-white/[0.07] backdrop-blur-xl border border-white/15 p-6 md:p-7 shadow-lg">
@@ -185,7 +196,9 @@ export default async function DashboardPage({
             <TrendChart data={chartData} />
           </div>
         </div>
+        </ScrollReveal>
       </div>
     </div>
+    </PageTransition>
   );
 }

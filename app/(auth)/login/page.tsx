@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
@@ -78,7 +79,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
+      <div className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
       {/* Background */}
       <img
         src="/image.gif"
@@ -102,24 +103,32 @@ export default function LoginPage() {
           </p>
 
           {/* Tab switcher */}
-          <div className="flex rounded-full bg-white/10 backdrop-blur-md border border-white/20 p-1 mb-6">
+          <motion.div layout className="flex rounded-full bg-white/10 backdrop-blur-md border border-white/20 p-1 mb-6">
             {(["login", "register"] as Tab[]).map((t) => (
-              <button
+              <motion.button
                 key={t}
                 onClick={() => {
                   setTab(t);
                   setError("");
                   setMessage("");
                 }}
-                className={`flex-1 py-2 rounded-full text-sm font-medium transition-colors ${tab === t
-                    ? "bg-purple-500 text-ink shadow-sm"
+                className={`flex-1 py-2 rounded-full text-sm font-medium transition-colors relative ${tab === t
+                    ? "text-ink shadow-sm"
                     : "text-white/70 hover:text-white"
                   }`}
+                whileTap={{ scale: 0.97 }}
               >
-                {t === "login" ? "Masuk" : "Daftar"}
-              </button>
+                {tab === t && (
+                  <motion.div
+                    layoutId="login-tab"
+                    className="absolute inset-0 bg-purple-500 rounded-full"
+                    transition={{ type: "tween", ease: [0.16, 1, 0.3, 1], duration: 0.3 }}
+                  />
+                )}
+                <span className="relative z-10">{t === "login" ? "Masuk" : "Daftar"}</span>
+              </motion.button>
             ))}
-          </div>
+          </motion.div>
 
           <form onSubmit={handleEmailSubmit} className="space-y-4">
             {tab === "register" && (

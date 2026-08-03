@@ -10,6 +10,9 @@ type InsightResult = {
   observations: { mood: number; sleep_hours: number; medication_taken: boolean }[];
 };
 
+import PageTransition from "@/components/motion/page-transition";
+import ScrollReveal from "@/components/motion/scroll-reveal";
+
 export default function ConsultationPage() {
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [result, setResult] = useState<InsightResult | null>(null);
@@ -61,7 +64,8 @@ export default function ConsultationPage() {
     : null;
 
   return (
-    <div className="relative min-h-screen isolate print:min-h-0">
+    <PageTransition>
+      <div className="relative min-h-screen isolate print:min-h-0">
       {/* Background gif + overlay — sama pattern dengan Dashboard, disembunyikan saat print */}
       <div className="fixed inset-0 z-0 print:hidden">
         <img src="/image.gif" alt="" className="w-full h-full object-cover" />
@@ -69,17 +73,20 @@ export default function ConsultationPage() {
       </div>
 
       <div className="relative z-10 max-w-2xl mx-auto px-6 py-10 md:py-12 print:py-0 print:max-w-none">
-        <div className="print:hidden">
-          <h1 className="text-2xl font-bold text-white mb-1">
-            AI Clinical Insight
-          </h1>
-          <p className="text-sm text-white/70 mb-8">
-            Ringkasan netral dari catatanmu — untuk didiskusikan, bukan diagnosis.
-          </p>
-        </div>
+        <ScrollReveal>
+          <div className="print:hidden">
+            <h1 className="text-2xl font-bold text-white mb-1">
+              AI Clinical Insight
+            </h1>
+            <p className="text-sm text-white/70 mb-8">
+              Ringkasan netral dari catatanmu — untuk didiskusikan, bukan diagnosis.
+            </p>
+          </div>
+        </ScrollReveal>
 
         {status !== "done" && (
-          <div className="print:hidden rounded-3xl bg-white/[0.07] backdrop-blur-xl border border-white/15 p-8 text-center shadow-lg">
+          <ScrollReveal delay={0.1}>
+            <div className="print:hidden rounded-3xl bg-white/[0.07] backdrop-blur-xl border border-white/15 p-8 text-center shadow-lg">
             <div className="w-14 h-14 rounded-2xl bg-primary/20 flex items-center justify-center mx-auto mb-4">
               <Sparkles size={24} className="text-primary-light" />
             </div>
@@ -107,10 +114,11 @@ export default function ConsultationPage() {
                 : "Generate Ringkasan Konsultasi"}
             </button>
           </div>
+          </ScrollReveal>
         )}
 
         {status === "done" && result && (
-          <>
+          <ScrollReveal delay={0.1}>
             <div className="rounded-3xl bg-white/[0.07] backdrop-blur-xl border border-white/15 p-6 md:p-8 shadow-lg print:border-0 print:bg-white print:p-0 print:shadow-none print:backdrop-blur-none">
               <div className="flex items-center gap-2 mb-6 print:mb-4">
                 <FileText size={18} className="text-primary-light print:hidden" />
@@ -169,9 +177,10 @@ export default function ConsultationPage() {
                 </p>
               </div>
             </div>
-          </>
+          </ScrollReveal>
         )}
       </div>
     </div>
+    </PageTransition>
   );
 }

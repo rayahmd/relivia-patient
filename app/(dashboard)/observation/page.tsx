@@ -14,6 +14,9 @@ const MOODS = [
 
 const SLEEP_QUALITY = ["Buruk", "Cukup", "Baik", "Sangat Baik"];
 
+import PageTransition from "@/components/motion/page-transition";
+import ScrollReveal from "@/components/motion/scroll-reveal";
+
 export default function ObservationPage() {
   const [mood, setMood] = useState(3);
   const [anxiety, setAnxiety] = useState(3);
@@ -40,7 +43,8 @@ export default function ObservationPage() {
   };
 
   return (
-    <div className="relative min-h-screen isolate">
+    <PageTransition>
+      <div className="relative min-h-screen isolate">
       {/* Background layer */}
       <div className="fixed inset-0 z-0">
         <img
@@ -52,14 +56,17 @@ export default function ObservationPage() {
       </div>
 
       <div className="relative max-w-2xl mx-auto px-6 py-10 z-10">
-        <h1 className="text-2xl font-bold text-foreground mb-1">
-          Check-in Harian
-        </h1>
-        <p className="text-sm text-foreground/60 mb-8">
-          Tidak perlu sempurna — cukup jujur dengan dirimu hari ini.
-        </p>
+        <ScrollReveal>
+          <h1 className="text-2xl font-bold text-foreground mb-1">
+            Check-in Harian
+          </h1>
+          <p className="text-sm text-foreground/60 mb-8">
+            Tidak perlu sempurna — cukup jujur dengan dirimu hari ini.
+          </p>
+        </ScrollReveal>
 
-      <form action={handleSubmit} className="rounded-[2rem] bg-white/[0.03] backdrop-blur-xl border border-white/10 p-6 md:p-8 space-y-8 shadow-[0_8px_32px_rgba(0,0,0,0.37)]">
+        <ScrollReveal delay={0.1}>
+          <form action={handleSubmit} className="rounded-[2rem] bg-white/[0.03] backdrop-blur-xl border border-white/10 p-6 md:p-8 space-y-8 shadow-[0_8px_32px_rgba(0,0,0,0.37)]">
         <div>
           <p className="text-sm font-semibold text-foreground mb-3">
             Bagaimana perasaanmu hari ini?
@@ -173,7 +180,9 @@ export default function ObservationPage() {
           )}
         </div>
       </form>
+      </ScrollReveal>
       </div>
     </div>
+    </PageTransition>
   );
 }

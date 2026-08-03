@@ -12,11 +12,15 @@ function formatDate(iso: string) {
   });
 }
 
+import PageTransition from "@/components/motion/page-transition";
+import ScrollReveal from "@/components/motion/scroll-reveal";
+
 export default async function TimelinePage() {
   const observations = await getObservations();
 
   return (
-    <div className="relative min-h-screen isolate">
+    <PageTransition>
+      <div className="relative min-h-screen isolate">
       {/* Background layer */}
       <div className="fixed inset-0 z-0">
         <img
@@ -28,19 +32,24 @@ export default async function TimelinePage() {
       </div>
 
       <div className="relative max-w-2xl mx-auto px-6 py-10 z-10">
-        <h1 className="text-2xl font-bold text-white mb-1 drop-shadow-sm">Timeline</h1>
-        <p className="text-sm text-white/60 mb-8">
-          Jejak langkah harianmu, dari hari ke hari.
-        </p>
+        <ScrollReveal>
+          <h1 className="text-2xl font-bold text-white mb-1 drop-shadow-sm">Timeline</h1>
+          <p className="text-sm text-white/60 mb-8">
+            Jejak langkah harianmu, dari hari ke hari.
+          </p>
+        </ScrollReveal>
 
         {observations.length === 0 ? (
-          <div className="rounded-[2rem] bg-white/[0.03] backdrop-blur-xl border border-white/10 p-10 text-center shadow-lg">
-            <p className="text-sm text-white/60">
-              Belum ada catatan. Yuk isi check-in pertamamu.
-            </p>
-          </div>
+          <ScrollReveal delay={0.1}>
+            <div className="rounded-[2rem] bg-white/[0.03] backdrop-blur-xl border border-white/10 p-10 text-center shadow-lg">
+              <p className="text-sm text-white/60">
+                Belum ada catatan. Yuk isi check-in pertamamu.
+              </p>
+            </div>
+          </ScrollReveal>
         ) : (
-          <div className="relative pl-6 border-l-2 border-white/10 space-y-5">
+          <ScrollReveal delay={0.1}>
+            <div className="relative pl-6 border-l-2 border-white/10 space-y-5">
             {observations.map((o) => (
               <div key={o.id} className="relative">
                 <span className="absolute -left-[31px] top-2 w-3.5 h-3.5 rounded-full bg-primary ring-4 ring-[#0C1030]" />
@@ -73,8 +82,10 @@ export default async function TimelinePage() {
               </div>
             ))}
           </div>
+          </ScrollReveal>
         )}
       </div>
     </div>
+    </PageTransition>
   );
 }

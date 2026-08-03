@@ -4,9 +4,11 @@ import Features from "@/components/landing/features";
 import CtaSection from "@/components/landing/cta-section";
 import Footer from "@/components/landing/footer";
 
+import PageTransition from "@/components/motion/page-transition";
+
 export default function Home() {
   return (
-    <>
+    <PageTransition>
       <Navbar />
       <main>
         <Hero />
@@ -14,6 +16,6 @@ export default function Home() {
         <CtaSection />
       </main>
       <Footer />
-    </>
+    </PageTransition>
   );
 }
